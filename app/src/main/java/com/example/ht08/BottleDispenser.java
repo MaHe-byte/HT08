@@ -38,25 +38,38 @@ public class BottleDispenser {
         text.setText("Klink! Added more money!");
     }
 
-    public void buyBottle(Integer choise, TextView text) {
-        if (totalbtl == 0) {
-            System.out.println("Disbenser is empty!");
-            text.setText("Disbenser is empty!");
-            returnMoney(text);
-        }
+    public void buyBottle(TextView text, String bottle, Double size) {
 
-        else if (money<(bottles.get(choise-1).getPrice())) {
-            System.out.println("Add money first!");
-            text.setText("Add money first!");
-        }
+        for (int i = 0;i<totalbtl;i++) {
+            if (bottle.equals(bottles.get(i).getName())) {
+                if (size == bottles.get(i).getSize()){
+                    if (money>(bottles.get(i).getPrice())){
+                        totalbtl -= 1;
+                        money -= bottles.get(i).getPrice();
 
-        else {
-            totalbtl -= 1;
-            money -= bottles.get(choise-1).getPrice();
+                        System.out.println("KACHUNK! "+(bottles.get(i).getName())+" came out of the dispenser!");
+                        text.setText("KACHUNK! "+(bottles.get(i).getName())+" came out of the dispenser!");
+                        bottles.remove(i);
+                        break;
 
-            System.out.println("KACHUNK! "+(bottles.get(choise-1).getName())+" came out of the dispenser!");
-            text.setText("KACHUNK! "+(bottles.get(choise-1).getName())+" came out of the dispenser!");
-            bottles.remove(choise-1);
+                    }
+                    else{
+                        System.out.println("Add money first!");
+                        text.setText("Add money first!");
+                        break;
+                    }
+
+                }
+                else{
+                    text.setText("No "+bottle+" in "+size);
+                    break;
+                }
+            }
+            else{
+                text.setText("Dispenser doesn't have "+bottle);
+                System.out.println(bottles.get(i).getName());
+            }
+
         }
     }
 
