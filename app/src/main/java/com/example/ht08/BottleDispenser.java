@@ -32,8 +32,8 @@ public class BottleDispenser {
 
     }
 
-    public void addMoney(TextView text) {
-        money += 1;
+    public void addMoney(TextView text, int money1) {
+        money += money1;
         System.out.println("Klink! Added more money!");
         text.setText("Klink! Added more money!");
     }
@@ -63,7 +63,7 @@ public class BottleDispenser {
     public void returnMoney(TextView text) {
         System.out.print("Klink klink. Money came out! You got ");
         System.out.format(Locale.FRANCE,"%.2f€ back", money);
-        text.setText("Klink klink. Money came out! You got "+money);
+        text.setText("Klink klink. Money came out! You got "+money+"e");
         money = 0;
     }
 
