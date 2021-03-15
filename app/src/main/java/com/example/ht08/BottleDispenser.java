@@ -1,7 +1,12 @@
 package com.example.ht08;
 
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -38,7 +43,7 @@ public class BottleDispenser {
         text.setText("Klink! Added more money!");
     }
 
-    public void buyBottle(TextView text, String bottle, Double size) {
+    public Double buyBottle(TextView text, String bottle, Double size) {
 
         for (int i = 0;i<totalbtl;i++) {
             if (bottle.equals(bottles.get(i).getName())) {
@@ -50,7 +55,7 @@ public class BottleDispenser {
                         System.out.println("KACHUNK! "+(bottles.get(i).getName())+" came out of the dispenser!");
                         text.setText("KACHUNK! "+(bottles.get(i).getName())+" came out of the dispenser!");
                         bottles.remove(i);
-                        break;
+                        return bottles.get(i).getPrice();
 
                     }
                     else{
@@ -68,10 +73,12 @@ public class BottleDispenser {
             else{
                 text.setText("Dispenser doesn't have "+bottle);
                 System.out.println(bottles.get(i).getName());
+                return 0.0;
             }
 
         }
-    }
+
+    return 0.0;}
 
     public void returnMoney(TextView text) {
         System.out.print("Klink klink. Money came out! You got ");
@@ -86,6 +93,7 @@ public class BottleDispenser {
             System.out.println("\tSize: "+bottles.get(i).getSize()+"\tPrice: "+bottles.get(i).getPrice());
         }
     }
+
 }
 
 

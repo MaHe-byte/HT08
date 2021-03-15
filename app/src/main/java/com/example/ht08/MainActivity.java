@@ -2,13 +2,18 @@ package com.example.ht08;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
     TextView text;
@@ -19,10 +24,16 @@ public class MainActivity extends AppCompatActivity {
     Double spinnerListSize[] = {0.5,1.5};
     String bottle;
     Double size;
+    String confirmedBottle;
+    Double confirmedSize;
+    Double confirmedPrice;
+    Context context = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = MainActivity.this;
         text = findViewById(R.id.textView);
         simpleSeekBar=(SeekBar)findViewById(R.id.seekBar2);
         spinner1 = (Spinner)findViewById(R.id.spinner);
@@ -73,11 +84,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buyBottle(View v){
-        BD.buyBottle(text,bottle,size);
+        confirmedBottle = bottle;
+        confirmedSize = size;
+        confirmedPrice = BD.buyBottle(text,confirmedBottle,confirmedSize);
 
     }
     public void returnMoney(View v){
         BD.returnMoney(text);
+    }
+
+    public void printReceipt(View v) {
+        try {
+            OutputStreamWriter osw = new OutputStreamWriter(context.openFileOutput("kuitti.txt", Context.MODE_PRIVATE));
+            String s = "";
+            s = "Tuote: "+confirmedBottle+" "+confirmedSize.toString()+" Hinta: "+confirmedPrice.toString();
+            osw.write(s);
+            System.out.println("Toimii");
+            osw.close();
+
+        } catch (IOException e) {
+            Log.e("IOEXCEPTION", "Virhe");
+
+        }
+
     }
 
 }
